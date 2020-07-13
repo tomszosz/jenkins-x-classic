@@ -1,0 +1,34 @@
+extends:
+  file: ../pipeline.yaml
+agent:
+  label: jenkins-R
+  container: r-base
+pipelines:
+  pullRequest:
+    build:
+      steps:
+      - sh: R CMD check .
+        name: R-check
+      - sh: R CMD build .
+        name: R-build
+      - sh: Rscript -e "devtools::test()"
+        name: "R execute unit tests from testthat"
+  release:
+    setVersion:
+      steps:
+      - sh: echo \$(jx-release-version) > VERSION
+        name: next-version
+        comment: so we can retrieve the version in later steps
+      # TODO set the version in source?
+      - sh: jx step tag --version \$(cat VERSION)
+        name: tag-version
+    build:
+      steps:
+      - sh: R CMD check .
+        name: R-check
+      - sh: R CMD build .
+        name: R-build
+      - sh: R CMD INSTALL .
+        name: R-install
+      - sh: Rscript -e "devtools::test()"
+        name: "R execute unit tests from testthat"
