@@ -30,7 +30,8 @@ pipelines:
       - sh: git config --global credential.helper store
         when: "!prow"
         name: git-config
-      - sh: jx step git credentials
+#      - sh: jx step git credentials
+      - sh: echo "jx step git credentials - missing TODO"
         when: "!prow"
         name: git-credentials
     setVersion:
@@ -39,7 +40,7 @@ pipelines:
         name: next-version
         comment: so we can retrieve the version in later steps
       # TODO set the version in source?
-      - sh: jx step tag --version \$(cat VERSION)
+      - sh: echo " TODO jx step tag --version \$(cat VERSION)""
         name: tag-version
     build:
       steps:
