@@ -40,7 +40,7 @@ pipelines:
         name: next-version
         comment: so we can retrieve the version in later steps
       # TODO set the version in source?
-      - sh: echo " TODO tag-version"
+      - sh: git tag \$(cat VERSION) && git push origin \$(cat VERSION)
         name: tag-version
     build:
       steps:
