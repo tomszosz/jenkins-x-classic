@@ -36,11 +36,11 @@ pipelines:
         name: git-credentials
     setVersion:
       steps:
-      - sh: echo \$(jx-release-version) > VERSION
+      - sh: echo "0.0.3 TODO "> VERSION
         name: next-version
         comment: so we can retrieve the version in later steps
       # TODO set the version in source?
-      - sh: echo " TODO jx step tag --version \$(cat VERSION)""
+      - sh: echo " TODO tag version""
         name: tag-version
     build:
       steps:
