@@ -36,7 +36,7 @@ pipelines:
         name: git-credentials
     setVersion:
       steps:
-      - sh: echo "0.0.3TODO"> VERSION
+      - sh: echo "v0.0.3TODO"> VERSION
         name: next-version
         comment: so we can retrieve the version in later steps
       # TODO set the version in source?
