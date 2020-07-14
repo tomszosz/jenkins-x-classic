@@ -31,12 +31,12 @@ pipelines:
         when: "!prow"
         name: git-config
 #      - sh: jx step git credentials
-      - sh: echo "jx step git credentials - missing TODO"
+      - sh: echo "0.0.3TODO"
         when: "!prow"
         name: git-credentials
     setVersion:
       steps:
-      - sh: echo "0.0.3 TODO step next-version"> VERSION
+      - sh: echo "0.0.3TODO"> VERSION
         name: next-version
         comment: so we can retrieve the version in later steps
       # TODO set the version in source?
