@@ -18,30 +18,34 @@ pipelines:
         name: "R execute unit tests from testthat"
   release:
     setup:
-      steps:
-      - groovy: git 'https://REPLACE_ME_GIT_PROVIDER/REPLACE_ME_ORG/REPLACE_ME_APP_NAME.git'
-        when: "prow"
-      - groovy: checkout scm
-        when: "!prow"
-      - sh: git checkout master
-        name: git-checkout-master
-        comment: ensure we're not on a detached head
-        when: "!prow"
-      - sh: git config --global credential.helper store
-        when: "!prow"
-        name: git-config
-#      - sh: jx step git credentials
-      - sh: echo "0.0.3TODO"
-        when: "!prow"
-        name: git-credentials
+#      steps:
+#      - groovy: git 'https://REPLACE_ME_GIT_PROVIDER/REPLACE_ME_ORG/REPLACE_ME_APP_NAME.git'
+#        when: "prow"
+#      - groovy: checkout scm
+#        when: "!prow"
+#      - sh: git checkout master
+#        name: git-checkout-master
+#        comment: ensure we're not on a detached head
+#        when: "!prow"
+#      - sh: git config --global credential.helper store
+#        when: "!prow"
+#        name: git-config
     setVersion:
       steps:
-      - sh: echo "v0.0.3TODO"> VERSION
+      - sh: echo \$(jx-release-version) > VERSION
         name: next-version
         comment: so we can retrieve the version in later steps
-      # TODO set the version in source?
-      - sh: git tag \$(cat VERSION) && git push origin \$(cat VERSION)
+      # TODO
+      # - sh: mvn versions:set -DnewVersion=\$(cat VERSION)
+      - sh: jx step tag --version \$(cat VERSION)
         name: tag-version
+#
+#      - sh: echo "0.0.3TODO"> VERSION
+#        name: next-version
+#        comment: so we can retrieve the version in later steps
+      # TODO set the version in source?
+#      - sh: git tag v\$(cat VERSION) && git push origin v\$(cat VERSION)
+#        name: tag-version
     build:
       steps:
       - sh: R CMD check .
